@@ -59,7 +59,7 @@ npm start
 | `ADMIN_PIN` | 是 | 管理员口令。请设置活动专用口令，不要使用示例值。 |
 | `UPSTASH_REDIS_REST_URL` | 是 | Upstash Redis REST 地址。 |
 | `UPSTASH_REDIS_REST_TOKEN` | 是 | Upstash Redis REST Token。 |
-| `PUBLIC_BASE_URL` | 推荐 | 二维码使用的公网根地址，活动时设为 `https://quiz.arsvine.com`。 |
+| `PUBLIC_BASE_URL` | Production 推荐 | 二维码使用的公网根地址；Production 活动环境设为 `https://quiz.arsvine.com`，Preview 可以留空以使用当前预览地址。 |
 | `QUIZ_REDIS_PREFIX` | 否 | Redis 命名空间；不同活动可改成新的值。 |
 
 如果通过旧版 Vercel/Upstash 集成获得的是 `KV_REST_API_URL` 和 `KV_REST_API_TOKEN`，代码也兼容这两个变量名。优先使用 [Vercel Marketplace 的 Upstash Redis](https://vercel.com/marketplace/upstash/upstash-kv) 或 Upstash 控制台创建 Redis，并将凭据只保存到 Vercel 环境变量中。
@@ -69,6 +69,8 @@ npm start
 在 Vercel 中导入 GitHub 仓库 `ArsvineZhu/anti-fraud-quiz`，项目根目录保持仓库根目录。该项目是静态 HTML + Node.js Functions：不需要构建命令；如果控制台要求填写 Output Directory，使用 `public`。
 
 部署前先填写 Redis 和 `ADMIN_PIN`，否则页面可以打开，但答题接口无法建立跨函数共享的房间状态，管理员接口也会提示缺少配置。
+
+部署完成后，先打开 `https://quiz.arsvine.com/api/health`。预期返回 `{"ok":true,"storage":"redis"}`；确认 `storage` 为 `redis` 后再把网址或二维码发给同学。活动应使用 Production Deployment 的自定义域名，不要把受访问保护的 Preview URL 作为现场入口。
 
 ### 绑定活动域名
 
@@ -89,7 +91,7 @@ Redis 中的房间状态会跨函数实例和重新部署保留；每场活动�
 - 题目内容位于 [`data/questions.js`](data/questions.js)，`answer` 是从 `0` 开始的选项索引。
 - 学生页脚本位于 [`public/app.js`](public/app.js)，管理员页和监控页分别使用 [`public/admin.js`](public/admin.js) 与 [`public/monitor.js`](public/monitor.js)。
 - 页面样式位于 [`public/styles.css`](public/styles.css)、[`public/admin.css`](public/admin.css) 和 [`public/monitor.css`](public/monitor.css)。
-- `server.js` 保留本地 HTTP 入口；Vercel 通过 [`api/`](api) 中的 Functions 处理同一组 API。
+- [`local-server.js`](local-server.js) 仅用于本地 HTTP 入口；Vercel 不读取本地服务器文件，只通过 [`api/`](api) 中的 Functions 处理 API。
 
 ## 验证
 

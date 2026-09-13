@@ -60,12 +60,12 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  if (requestUrl.pathname === '/admin') {
+  if (requestUrl.pathname === '/admin' || requestUrl.pathname === '/admin/') {
     servePage(res, 'admin.html');
     return;
   }
 
-  if (requestUrl.pathname === '/monitor') {
+  if (requestUrl.pathname === '/monitor' || requestUrl.pathname === '/monitor/') {
     servePage(res, 'monitor.html');
     return;
   }

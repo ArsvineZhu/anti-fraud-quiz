@@ -16,11 +16,12 @@
 - [`lib/game-state.js`](lib/game-state.js)：纯游戏状态规则与排行榜计算。
 - [`data/questions.js`](data/questions.js)：题库；`answer` 使用从 `0` 开始的选项索引。
 - [`public/`](public)：静态页面、浏览器脚本和样式。
-- [`server.js`](server.js)：本地 HTTP 运行入口。
+- [`local-server.js`](local-server.js)：仅用于本地 HTTP 运行；不参与 Vercel 部署。
 
 ## 部署配置
 
 - [`vercel.json`](vercel.json)：静态页面重写、Functions 配置和 API 响应头。
 - [`.env.example`](.env.example)：本地/部署环境变量模板，不含真实凭据。
+- 部署健康检查：`/api/health`；确认返回的 `storage` 为 `redis` 后再开始活动。
 
 验证命令和活动部署步骤集中维护在 [README.md](README.md) 中。

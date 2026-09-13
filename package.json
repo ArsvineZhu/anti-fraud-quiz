@@ -5,9 +5,10 @@
   "description": "智识反诈团日活动 H5",
   "scripts": {
     "start": "node server.js",
-    "test": "node --test lib/game-state.test.js lib/game-state-monitor.test.js"
+    "test": "node --test lib/game-state.test.js lib/game-state-monitor.test.js lib/game-store.test.js lib/quiz-api.test.js"
   },
   "dependencies": {
+    "@upstash/redis": "^1.38.4",
     "qrcode": "^1.5.4"
   }
 }

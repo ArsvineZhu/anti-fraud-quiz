@@ -108,7 +108,9 @@ async function enterAdmin(event) {
   event.preventDefault();
   adminState.pin = elements.pinInput.value.trim();
   try {
-    const payload = await requestJson(`/api/admin/room?pin=${encodeURIComponent(adminState.pin)}`);
+    const payload = await requestJson('/api/admin/room', {
+      headers: { 'x-admin-pin': adminState.pin },
+    });
     elements.login.classList.add('hidden');
     elements.controls.classList.remove('hidden');
     elements.hint.textContent = '同学扫码后会出现在下面的参赛名单中。';

@@ -58,12 +58,12 @@ npm start
 | 变量 | 必需 | 用途 |
 | --- | --- | --- |
 | `ADMIN_PIN` | 是 | 管理员口令。请设置活动专用口令，不要使用示例值。 |
-| `UPSTASH_REDIS_REST_URL` | 是 | Upstash Redis REST 地址。 |
-| `UPSTASH_REDIS_REST_TOKEN` | 是 | Upstash Redis REST Token。 |
+| `QUIZ_KV_REST_API_URL` | 是 | Upstash Redis REST 地址；这是 Vercel 连接资源使用 `QUIZ_` 前缀后的变量名。 |
+| `QUIZ_KV_REST_API_TOKEN` | 是 | Upstash Redis 可写 REST Token；不能使用只读 Token。 |
 | `PUBLIC_BASE_URL` | Production 推荐 | 二维码使用的公网根地址；Production 活动环境设为 `https://quiz.arsvine.com`，Preview 可以留空以使用当前预览地址。 |
 | `QUIZ_REDIS_PREFIX` | 否 | Redis 命名空间；不同活动可改成新的值。 |
 
-如果通过旧版 Vercel/Upstash 集成获得的是 `KV_REST_API_URL` 和 `KV_REST_API_TOKEN`，代码也兼容这两个变量名。优先使用 [Vercel Marketplace 的 Upstash Redis](https://vercel.com/marketplace/upstash/upstash-kv) 或 Upstash 控制台创建 Redis，并将凭据只保存到 Vercel 环境变量中。
+代码也兼容未加前缀的 `UPSTASH_REDIS_REST_URL`/`UPSTASH_REDIS_REST_TOKEN` 和 `KV_REST_API_URL`/`KV_REST_API_TOKEN`。`QUIZ_KV_URL`、`QUIZ_REDIS_URL` 和 `QUIZ_KV_REST_API_READ_ONLY_TOKEN` 不用于本项目。优先使用 [Vercel Marketplace 的 Upstash Redis](https://vercel.com/marketplace/upstash/upstash-kv) 或 Upstash 控制台创建 Redis，并将凭据只保存到 Vercel 环境变量中。
 
 ### 导入项目
 

@@ -21,6 +21,7 @@ These instructions apply to the entire repository.
 
 - Treat `ADMIN_PIN`, Redis URLs, and Redis tokens as secrets or private configuration.
 - Never commit `.env`, real credentials, or a deployment-specific token.
+- Prefer the project-scoped `QUIZ_KV_REST_API_URL` and `QUIZ_KV_REST_API_TOKEN` names when Vercel adds the `QUIZ_` integration prefix; never substitute the read-only token for the write token.
 - Keep `PUBLIC_BASE_URL` configurable so preview deployments can use their own origin.
 - Use a new `QUIZ_REDIS_PREFIX` for an independent event room.
 

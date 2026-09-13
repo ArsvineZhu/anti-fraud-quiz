@@ -9,6 +9,7 @@
     }
   },
   "rewrites": [
+    { "source": "/api/health", "destination": "/api/meta?health=1" },
     { "source": "/admin", "destination": "/admin.html" },
     { "source": "/admin/", "destination": "/admin.html" },
     { "source": "/monitor", "destination": "/monitor.html" },

@@ -11,6 +11,7 @@
 ## 代码边界
 
 - [`api/`](api)：Vercel Functions 路由入口；每个文件转发到共享 API handler。
+- [`lib/vercel-handler.js`](lib/vercel-handler.js)：显式标记线上运行时，确保 API Functions 使用 Redis。
 - [`lib/quiz-api.js`](lib/quiz-api.js)：HTTP API 行为、鉴权、响应和房间投影的唯一实现。
 - [`lib/game-store.js`](lib/game-store.js)：本地内存存储与 Vercel Redis 存储适配，以及跨函数写锁。
 - [`lib/game-state.js`](lib/game-state.js)：纯游戏状态规则与排行榜计算。
@@ -23,5 +24,6 @@
 - [`vercel.json`](vercel.json)：静态页面重写、Functions 配置和 API 响应头。
 - [`.env.example`](.env.example)：本地/部署环境变量模板，不含真实凭据。
 - 部署健康检查：`/api/health`；确认返回的 `storage` 为 `redis` 后再开始活动。
+- `api/` 入口数量保持在 12 个以内，以兼容 Vercel Hobby 限制。
 
 验证命令和活动部署步骤集中维护在 [README.md](README.md) 中。

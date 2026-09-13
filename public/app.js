@@ -110,7 +110,7 @@ function renderLeaderboard(players = []) {
   }
 
   elements.leaderboard.innerHTML = players.slice(0, 10).map((player) => `
-    <li class="rankRow ${state.player?.id === player.id ? 'is-me' : ''}">
+    <li class="rankRow ${player.isMe ? 'is-me' : ''}">
       <span class="rankIndex">${player.rank}</span>
       <span class="rankName">${escapeHtml(player.name)}</span>
       <strong class="rankScore">${player.score} 分</strong>
@@ -359,8 +359,9 @@ async function finishGame() {
   state.status = 'ended';
   window.clearInterval(state.timerId);
   window.clearInterval(state.roomPollId);
-  const leaderboardPayload = await requestJson('/api/leaderboard').catch(() => ({ players: [] }));
-  const me = leaderboardPayload.players.find((player) => player.id === state.player.id);
+  const leaderboardPayload = await requestJson(`/api/leaderboard?playerId=${encodeURIComponent(state.player.id)}`)
+    .catch(() => ({ players: [] }));
+  const me = leaderboardPayload.players.find((player) => player.isMe);
   const rank = me?.rank || '-';
   const score = me?.score ?? state.player.score ?? 0;
   const rate = Math.round((score / Math.max(1, state.questions.length)) * 100);

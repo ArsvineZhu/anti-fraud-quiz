@@ -1,1 +1,1 @@
-module.exports = require('../lib/quiz-api').handleApiRequest;
+module.exports = require('../lib/vercel-handler');

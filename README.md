@@ -49,6 +49,7 @@ npm start
 - `public/` 继续作为静态资源目录。
 - Vercel 环境默认使用 Redis；不会依赖某一个函数实例的本地内存。
 - Redis 写操作带有短时分布式锁，避免多人同时加入或提交时互相覆盖房间状态。
+- 当前 `api/` 只有 12 个 Function 入口；`/api/health` 通过重写复用 `api/meta.js`，不要随意再增加独立的 `api/*.js` 文件。
 
 ### Vercel 环境变量
 
@@ -86,12 +87,19 @@ npm start
 
 Redis 中的房间状态会跨函数实例和重新部署保留；每场活动结束后应使用管理员页的“重置本局”，或通过新的 `QUIZ_REDIS_PREFIX` 开启独立房间。
 
+### 活动结束后关闭
+
+1. 在管理员页点击“结束本局”，确认不再需要成绩后再清理数据。
+2. 在 Vercel 项目的 Domains 设置中移除 `quiz.arsvine.com`，停止继续对外提供活动入口。
+3. 如果这次活动不再需要保留项目，删除对应的 Vercel Project；如果还要复用代码，可以只保留仓库和项目配置。
+4. 在 Vercel Marketplace/Upstash 中删除或解除本次活动使用的 Redis 资源。Redis 中保存的昵称、成绩和答题动态会随资源删除而不可恢复。
+
 ## 题库和页面改编
 
 - 题目内容位于 [`data/questions.js`](data/questions.js)，`answer` 是从 `0` 开始的选项索引。
 - 学生页脚本位于 [`public/app.js`](public/app.js)，管理员页和监控页分别使用 [`public/admin.js`](public/admin.js) 与 [`public/monitor.js`](public/monitor.js)。
 - 页面样式位于 [`public/styles.css`](public/styles.css)、[`public/admin.css`](public/admin.css) 和 [`public/monitor.css`](public/monitor.css)。
-- [`local-server.js`](local-server.js) 仅用于本地 HTTP 入口；Vercel 不读取本地服务器文件，只通过 [`api/`](api) 中的 Functions 处理 API。
+- [`local-server.js`](local-server.js) 仅用于本地 HTTP 入口；Vercel 线上路由不依赖它，只通过 [`api/`](api) 中的 Functions 处理 API。
 
 ## 验证
 

@@ -9,10 +9,13 @@ These instructions apply to the entire repository.
 - Preserve the three public surfaces: `/`, `/admin`, and `/monitor`.
 - Keep game rules in `lib/game-state.js`; do not duplicate state transitions in route wrappers or browser code.
 - Keep HTTP behavior in `lib/quiz-api.js`; files under `api/` are Vercel entry-point adapters only.
+- Every file under `api/` MUST delegate through `lib/vercel-handler.js` so hosted-runtime storage policy is explicit.
 - Treat `local-server.js` as a local-development adapter only; Vercel MUST NOT depend on it.
 - Vercel deployments MUST use Redis-backed state. Local `npm start` MAY use the in-memory store.
+- Keep the number of JavaScript files under `api/` at or below 12 for Hobby deployments; reuse an existing function for health checks and similar metadata endpoints.
 - Before a public event, `/api/health` MUST report `{ "ok": true, "storage": "redis" }`.
 - Do not expose question answers in player-facing payloads.
+- Player IDs are bearer tokens: generate them with cryptographic randomness and omit them from shared leaderboard/monitor projections.
 
 ## Configuration and secrets
 

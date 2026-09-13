@@ -46,7 +46,7 @@ function servePage(res, page) {
 
 const server = http.createServer(async (req, res) => {
   const requestUrl = new URL(req.url || '/', `http://${req.headers.host || `localhost:${PORT}`}`);
-  const handled = await handleApiRequest(req, res, { store });
+  const handled = await handleApiRequest(req, res, { store, runtime: 'local' });
   if (handled) return;
 
   if (req.method !== 'GET' && req.method !== 'HEAD') {
